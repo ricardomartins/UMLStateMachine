@@ -2,14 +2,13 @@ package pt.rikmartins.uml.statemachine.examples.basic;
 
 import pt.rikmartins.uml.statemachine.BehavioralStateMachine;
 import pt.rikmartins.uml.statemachine.Region;
-import pt.rikmartins.uml.statemachine.events.Event;
-import pt.rikmartins.uml.statemachine.exceptions.StateMachineException;
-import pt.rikmartins.uml.statemachine.transitions.BehavioralTransition;
-import pt.rikmartins.uml.statemachine.transitions.Trigger;
-import pt.rikmartins.uml.statemachine.vertexes.Vertex;
-import pt.rikmartins.uml.statemachine.vertexes.behavioralstates.SimpleBehavioralState;
+import pt.rikmartins.uml.statemachine.Event;
+import pt.rikmartins.uml.statemachine.UMLStateMachineException;
+import pt.rikmartins.uml.statemachine.BehavioralTransition;
+import pt.rikmartins.uml.statemachine.Trigger;
+import pt.rikmartins.uml.statemachine.Vertex;
+import pt.rikmartins.uml.statemachine.behavioralstates.SimpleBehavioralState;
 
-import java.awt.*;
 import java.util.HashSet;
 
 /**
@@ -18,8 +17,12 @@ import java.util.HashSet;
 public class basic {
     public static void main(String[] args) {
         BehavioralStateMachine container = new BehavioralStateMachine();
-        Region region = new Region(container, "Main Region");
-
+        Region region = null;
+        try {
+            region = new Region(container, "Main Region");
+        } catch (UMLStateMachineException e) {
+            e.printStackTrace();
+        }
 
         Vertex red = null;
         Vertex yellow = null;
@@ -28,7 +31,7 @@ public class basic {
             red = new SimpleBehavioralState(region, "Red");
             yellow = new SimpleBehavioralState(region, "Yellow");
             green = new SimpleBehavioralState(region, "Green");
-        } catch (StateMachineException e) {
+        } catch (UMLStateMachineException e) {
             e.printStackTrace();
         }
 
@@ -47,29 +50,27 @@ public class basic {
         triggersHelper.add(new Trigger(new Event("Open")));
         new BehavioralTransition(red, green, triggersHelper);
 
-        System.out.print(container.isActive());
-        System.out.print(container.currentState());
+        System.out.println(container.isActive());
+        System.out.println(container.getCurrentState());
+
+        try {
+            container.activate();
+        } catch (UMLStateMachineException e) {
+            e.printStackTrace();
+        }
+        System.out.println(container.isActive());
+        System.out.println(container.getCurrentState());
+
+        container.receiveEvent(new Event("Warn"));
+        System.out.println(container.getCurrentState());
+
+        container.receiveEvent(new Event("Close"));
+        System.out.println(container.getCurrentState());
+
+        container.receiveEvent(new Event("Open"));
+        System.out.println(container.getCurrentState());
+
+        container.receiveEvent(new Event("Close"));
+        System.out.println(container.getCurrentState());
     }
 }
-//    print(contentor.is_active())
-//    print(contentor.current_state)
-//
-//    contentor.activate()
-//    print(contentor.is_active())
-//    print(contentor.current_state)
-//
-//    contentor.in_event(Event('Warn'))
-//    print(contentor.is_active())
-//    print(contentor.current_state)
-//
-//    contentor.in_event(Event('Close'))
-//    print(contentor.is_active())
-//    print(contentor.current_state)
-//
-//    contentor.in_event(Event('Open'))
-//    print(contentor.is_active())
-//    print(contentor.current_state)
-//
-//    contentor.in_event(Event('Close'))
-//    print(contentor.is_active())
-//    print(contentor.current_state)

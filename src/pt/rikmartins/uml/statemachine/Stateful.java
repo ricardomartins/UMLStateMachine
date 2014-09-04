@@ -1,12 +1,15 @@
 package pt.rikmartins.uml.statemachine;
 
-import pt.rikmartins.uml.statemachine.exceptions.StateMachineException;
-import pt.rikmartins.uml.statemachine.vertexes.behavioralstates.abstractions.BehavioralState;
-
 /**
- * Created by ricardo on 12-08-2014.
+ * Created by ricardo on 09-08-2014.
  */
-public interface Stateful {
-    public Coiso getCurrentState();
-    public void setCurrentState(BehavioralState state) throws StateMachineException;
+public interface Stateful extends Deactivatable {
+    /**
+     * Returns the currently active behavioral states or null.
+     *
+     * @return a set with the current states or null if not active
+     */
+    public BehavioralStateSet getCurrentState();
+
+    public BehavioralStateSet setCurrentState(BehavioralStateSet behavioralStates) throws UMLStateMachineException;
 }
