@@ -8,7 +8,7 @@ import java.util.Set;
  * Created by ricardo on 04-08-2014.
  */
 public abstract class Vertex implements Activatable {
-    protected final Region region;
+    private final Region region;
     private final Set<BehavioralTransition> outTransitions;
     private final Set<BehavioralTransition> inTransitions;
 
@@ -33,6 +33,10 @@ public abstract class Vertex implements Activatable {
         this.inTransitions = new HashSet<BehavioralTransition>();
     }
 
+    public final Region getRegion() {
+        return region;
+    }
+
     public final Set<BehavioralTransition> getInTransitions() {
         return inTransitions;
     }
@@ -41,9 +45,12 @@ public abstract class Vertex implements Activatable {
         return outTransitions;
     }
 
-    public void registerOutTransition(BehavioralTransition transition) {
-        if (canRegisterOutTransition(transition))
+    public final boolean registerOutTransition(BehavioralTransition transition) {
+        boolean result = canRegisterOutTransition(transition);
+
+        if (result)
             outTransitions.add(transition);
+        return result;
     }
 
     public final void registerOutTransitions(Collection<BehavioralTransition> transitions) {
@@ -52,7 +59,7 @@ public abstract class Vertex implements Activatable {
         }
     }
 
-    public void registerInTransition(BehavioralTransition transition) {
+    public final void registerInTransition(BehavioralTransition transition) {
         if (canRegisterInTransition(transition))
             inTransitions.add(transition);
     }

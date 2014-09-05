@@ -100,7 +100,7 @@ public abstract class RegionContainerImplementation implements Stateful, Finalis
         Set<Vertex> vertexesToForward = new HashSet<Vertex>(states);
 
         for (Vertex behavioralState: states){
-            if (behavioralState.region.equals(this)) {
+            if (behavioralState.getRegion().equals(this)) {
                 if (vertexToActivate == null) {
                     vertexToActivate = behavioralState;
                     vertexesToForward.remove(behavioralState);

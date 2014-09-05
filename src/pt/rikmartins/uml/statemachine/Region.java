@@ -140,7 +140,7 @@ public class Region implements Stateful, Finalisable, Event.Receptor {
     public BehavioralStateSet setCurrentState(BehavioralStateSet behavioralStates) throws UMLStateMachineException {
         assert behavioralStates.size() == 1 : "Multiple state activation not supported yet.";
         for (BehavioralState state: behavioralStates){
-            if (!state.region.equals(this))
+            if (!state.getRegion().equals(this))
                 throw new UMLStateMachineException("Trying to activate a foreign \"" + state.name + "\" BehavioralState in \"" + name + "\" Region");
             currentState = state;
         }

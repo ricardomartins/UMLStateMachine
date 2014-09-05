@@ -11,4 +11,9 @@ public final class Final extends SpecialBehavioralState implements Vertex.Multip
     public Final(Region region) throws UMLStateMachineException {
         super(region, "Final");
     }
+
+    @Override
+    public boolean isFinalised() {
+        return isActive();
+    }
 }

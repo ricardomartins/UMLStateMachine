@@ -8,8 +8,8 @@ import java.util.Set;
 /**
  * Created by ricardo on 06-08-2014.
  */
-public class CompositeState extends SpecialBehavioralState implements Stateful, Finalisable, RegionContainer {
-    RegionContainer regionContainer;
+public class CompositeState extends SpecialBehavioralState implements Stateful, RegionContainer, Vertex.MultipleTransitionSource, Vertex.MultipleTransitionTarget {
+    RegionContainerImplementation regionContainer;
 
     public CompositeState(Region region, String name) throws UMLStateMachineException {
         super(region, name);
@@ -33,10 +33,6 @@ public class CompositeState extends SpecialBehavioralState implements Stateful, 
     }
 
     @Override
-    public boolean isFinalised() {
-        return false;
-    }
-    @Override
     public Set<Region> getRegions() {
         return regionContainer.getRegions();
     }
@@ -49,5 +45,10 @@ public class CompositeState extends SpecialBehavioralState implements Stateful, 
     @Override
     public void registerRegions(Collection<Region> regions) {
         regionContainer.registerRegions(regions);
+    }
+
+    @Override
+    public boolean isFinalised() {
+        return regionContainer.isFinalised();
     }
 }

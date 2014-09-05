@@ -24,27 +24,10 @@ public abstract class PseudoState extends Vertex {
     }
 
     @Override
-    public void registerOutTransition(BehavioralTransition transition) {
-        super.registerOutTransition(transition);
-    }
-
-    @Override
-    public void registerInTransition(BehavioralTransition transition) {
-        super.registerInTransition(transition);
-    }
-
-    @Override
     protected boolean canRegisterOutTransition(BehavioralTransition transition) {
         if (!super.canRegisterOutTransition(transition))
             return false;
         if (transition.getTriggers().size() > 0)
-            return false;
-        return true;
-    }
-
-    @Override
-    protected boolean canRegisterInTransition(BehavioralTransition transition) {
-        if (!super.canRegisterInTransition(transition))
             return false;
         return true;
     }

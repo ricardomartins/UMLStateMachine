@@ -12,5 +12,4 @@ public class Initial extends PseudoState implements Vertex.SingleTransitionSourc
     public Initial(Region region) throws UMLStateMachineException {
         super(region);
     }
-
 }

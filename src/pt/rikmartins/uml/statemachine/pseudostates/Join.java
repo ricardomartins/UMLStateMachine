@@ -12,7 +12,11 @@ public class Join extends PseudoState implements Vertex.MultipleTransitionTarget
     }
 
     @Override
-    public BehavioralStateSet activate() throws UMLStateMachineException {
-        return null;
+    protected boolean canRegisterInTransition(BehavioralTransition transition) {
+        if (!super.canRegisterInTransition(transition)) return false;
+        for(BehavioralTransition bt: getInTransitions())
+            // Prevent transitions to behavioral states in repeated regions
+            if (bt.toVertex.getRegion() == transition.toVertex.getRegion()) return false;
+        return true;
     }
 }

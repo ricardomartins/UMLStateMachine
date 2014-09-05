@@ -9,7 +9,7 @@ import java.util.Map;
 /**
  * Created by ricardo on 04-08-2014.
  */
-public abstract class BehavioralState extends Vertex implements Event.Receptor, Vertex.MultipleTransitionSource, Vertex.MultipleTransitionTarget {
+public abstract class BehavioralState extends Vertex implements Event.Receptor, Finalisable {
     private static final Map<String, Class<? extends SpecialBehavioralState>> reservedBehaviorStates;
     static {
         reservedBehaviorStates = new HashMap<String, Class<? extends SpecialBehavioralState>>();
@@ -44,10 +44,10 @@ public abstract class BehavioralState extends Vertex implements Event.Receptor, 
 
     @Override
     public boolean isActive() {
-        BehavioralStateSet algo = region.getCurrentState();
+        BehavioralStateSet algo = getRegion().getCurrentState();
         assert algo == null || algo.size() == 1: "Region returning more than one BehavioralState";
         for (BehavioralState state: algo)
-            return region.getCurrentState().equals(this);
+            return getRegion().getCurrentState().equals(this);
         return false;
     }
 
@@ -55,7 +55,7 @@ public abstract class BehavioralState extends Vertex implements Event.Receptor, 
     public BehavioralStateSet activate() throws UMLStateMachineException {
         BehavioralStateSet states = new BehavioralStateSet();
         states.add(this);
-        this.region.setCurrentState(states);
+        this.getRegion().setCurrentState(states);
         return states;
     }
 
@@ -63,4 +63,5 @@ public abstract class BehavioralState extends Vertex implements Event.Receptor, 
     public String toString() {
         return name;
     }
+
 }

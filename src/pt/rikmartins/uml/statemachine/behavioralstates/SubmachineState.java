@@ -8,8 +8,8 @@ import java.util.Set;
 /**
  * Created by ricardo on 06-08-2014.
  */
-public class SubmachineState extends SpecialBehavioralState implements Stateful, Finalisable, RegionContainer {
-    RegionContainer regionContainer;
+public class SubmachineState extends SpecialBehavioralState implements Stateful, RegionContainer, Vertex.MultipleTransitionSource, Vertex.MultipleTransitionTarget {
+    RegionContainerImplementation regionContainer;
 
     public SubmachineState(Region region, String name) throws UMLStateMachineException {
         super(region, name);
@@ -34,7 +34,7 @@ public class SubmachineState extends SpecialBehavioralState implements Stateful,
 
     @Override
     public boolean isFinalised() {
-        return false;
+        return regionContainer.isFinalised();
     }
 
     @Override
