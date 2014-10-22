@@ -13,19 +13,19 @@ public final class SimpleBehavioralState extends BehavioralState implements Vert
     }
 
     @Override
-    protected boolean canRegisterOutTransition(BehavioralTransition transition) {
-        if (!super.canRegisterOutTransition(transition)) return false;
+    protected boolean canRegisterOutTransition(BehavioralTransition transition) throws UMLStateMachineException {
+        super.canRegisterOutTransition(transition);
 
         Iterator<BehavioralTransition> outTransitionsIterator = getOutTransitions().iterator();
         if (outTransitionsIterator.hasNext()) {
-            if (outTransitionsIterator.next().getTriggers().size() < 1) return false;
-            if (transition.getTriggers().size() < 1) return false;
+            if (outTransitionsIterator.next().getTriggers().size() < 1) throw new UMLStateMachineException("This behavioral state already has a default Transition from it.");
+            if (transition.getTriggers().size() < 1) throw new UMLStateMachineException("Can not mix triggered transitions with default in simple behavioral states.");
         }
 
         return true;
     }
 
     public boolean isFinalised() {
-        return false;
+        return isActive();
     }
 }

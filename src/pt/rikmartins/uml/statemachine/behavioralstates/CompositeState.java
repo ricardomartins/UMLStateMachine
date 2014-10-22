@@ -1,8 +1,7 @@
 package pt.rikmartins.uml.statemachine.behavioralstates;
 
 import pt.rikmartins.uml.statemachine.*;
-import pt.rikmartins.uml.statemachine.BehavioralStateSet;
-import java.util.Collection;
+
 import java.util.Set;
 
 /**
@@ -14,21 +13,22 @@ public class CompositeState extends SpecialBehavioralState implements Stateful, 
     public CompositeState(Region region, String name) throws UMLStateMachineException {
         super(region, name);
 
-        regionContainer = new RegionContainerImplementation() {};
+        regionContainer = new RegionContainerImplementation() {
+        };
     }
 
     @Override
-    public BehavioralStateSet getCurrentState() {
+    public Set<BehavioralState> getCurrentState() {
         return null;
     }
 
     @Override
-    public BehavioralStateSet setCurrentState(BehavioralStateSet behavioralStates) throws UMLStateMachineException {
+    public Set<BehavioralState> setCurrentState(Set<BehavioralState> behavioralStates) throws UMLStateMachineException {
         return null;
     }
 
     @Override
-    public BehavioralStateSet deactivate() throws UMLStateMachineException {
+    public Set<BehavioralState> deactivate() throws UMLStateMachineException {
         return null;
     }
 
@@ -38,13 +38,8 @@ public class CompositeState extends SpecialBehavioralState implements Stateful, 
     }
 
     @Override
-    public void registerRegions(Region region) {
-        regionContainer.registerRegions(region);
-    }
-
-    @Override
-    public void registerRegions(Collection<Region> regions) {
-        regionContainer.registerRegions(regions);
+    public void registerRegion(Region region) throws UMLStateMachineException {
+        regionContainer.registerRegion(region);
     }
 
     @Override

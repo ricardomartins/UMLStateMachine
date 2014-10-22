@@ -1,7 +1,6 @@
 package pt.rikmartins.uml.statemachine.pseudostates;
 
 import pt.rikmartins.uml.statemachine.*;
-import pt.rikmartins.uml.statemachine.BehavioralStateSet;
 
 /**
  * Created by ricardo on 05-08-2014.
@@ -12,7 +11,7 @@ public class Fork extends PseudoState implements Vertex.SingleTransitionTarget, 
     }
 
     @Override
-    protected boolean canRegisterOutTransition(BehavioralTransition transition) {
+    protected boolean canRegisterOutTransition(BehavioralTransition transition) throws UMLStateMachineException {
         if (!super.canRegisterOutTransition(transition)) return false;
         for(BehavioralTransition bt: getOutTransitions())
             // Prevent transitions to behavioral states in repeated regions

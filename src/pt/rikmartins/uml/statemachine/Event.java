@@ -1,7 +1,10 @@
 package pt.rikmartins.uml.statemachine;
 
+import pt.rikmartins.uml.statemachine.tools.BigStructure;
+
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by ricardo on 05-08-2014.
@@ -40,7 +43,7 @@ public class Event {
     /**
      * Created by ricardo on 08-08-2014.
      */
-    public static interface Receptor {
-        public BehavioralStateSet receiveEvent(Event event);
+    public static interface EventReceptor {
+        public BigStructure receiveEvent(Event event);
     }
 }

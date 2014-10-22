@@ -20,9 +20,14 @@ public abstract class Behavior {  // TODO: Clarify function names
         }
     }
 
-    public abstract boolean behavior(Map<String, String> arguments);
+    public abstract boolean behave(Map<String, String> arguments);
 
     public final String getName() {
         return name;
     }
+
+    public static interface Behaved{
+        // TODO: What will this be?
+    }
+    // TODO: Not here, BehaviorState should have behaviors (enter, exit and maybe during)
 }

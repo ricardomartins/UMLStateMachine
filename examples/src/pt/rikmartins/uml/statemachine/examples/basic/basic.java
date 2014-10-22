@@ -16,61 +16,61 @@ import java.util.HashSet;
  */
 public class basic {
     public static void main(String[] args) {
-        BehavioralStateMachine container = new BehavioralStateMachine();
-        Region region = null;
-        try {
-            region = new Region(container, "Main Region");
-        } catch (UMLStateMachineException e) {
-            e.printStackTrace();
-        }
-
-        Vertex red = null;
-        Vertex yellow = null;
-        Vertex green = null;
-        try {
-            red = new SimpleBehavioralState(region, "Red");
-            yellow = new SimpleBehavioralState(region, "Yellow");
-            green = new SimpleBehavioralState(region, "Green");
-        } catch (UMLStateMachineException e) {
-            e.printStackTrace();
-        }
-
-        new BehavioralTransition(region.getInitialState(), green);
-
-        HashSet<Trigger> triggersHelper = new HashSet<Trigger>();
-
-        triggersHelper.add(new Trigger(new Event("Warn")));
-        new BehavioralTransition(green, yellow, triggersHelper);
-
-        triggersHelper.clear();
-        triggersHelper.add(new Trigger(new Event("Close")));
-        new BehavioralTransition(yellow, red, triggersHelper);
-
-        triggersHelper.clear();
-        triggersHelper.add(new Trigger(new Event("Open")));
-        new BehavioralTransition(red, green, triggersHelper);
-
-        System.out.println(container.isActive());
-        System.out.println(container.getCurrentState());
-
-        try {
-            container.activate();
-        } catch (UMLStateMachineException e) {
-            e.printStackTrace();
-        }
-        System.out.println(container.isActive());
-        System.out.println(container.getCurrentState());
-
-        container.receiveEvent(new Event("Warn"));
-        System.out.println(container.getCurrentState());
-
-        container.receiveEvent(new Event("Close"));
-        System.out.println(container.getCurrentState());
-
-        container.receiveEvent(new Event("Open"));
-        System.out.println(container.getCurrentState());
-
-        container.receiveEvent(new Event("Close"));
-        System.out.println(container.getCurrentState());
+//        BehavioralStateMachine container = new BehavioralStateMachine();
+//        Region region = null;
+//        try {
+//            region = new Region(container, "Main Region");
+//        } catch (UMLStateMachineException e) {
+//            e.printStackTrace();
+//        }
+//
+//        Vertex red = null;
+//        Vertex yellow = null;
+//        Vertex green = null;
+//        try {
+//            red = new SimpleBehavioralState(region, "Red");
+//            yellow = new SimpleBehavioralState(region, "Yellow");
+//            green = new SimpleBehavioralState(region, "Green");
+//        } catch (UMLStateMachineException e) {
+//            e.printStackTrace();
+//        }
+//
+//        new BehavioralTransition(region.getInitialState(), green);
+//
+//        HashSet<Trigger> triggersHelper = new HashSet<Trigger>();
+//
+//        triggersHelper.add(new Trigger(new Event("Warn")));
+//        new BehavioralTransition(green, yellow, triggersHelper);
+//
+//        triggersHelper.clear();
+//        triggersHelper.add(new Trigger(new Event("Close")));
+//        new BehavioralTransition(yellow, red, triggersHelper);
+//
+//        triggersHelper.clear();
+//        triggersHelper.add(new Trigger(new Event("Open")));
+//        new BehavioralTransition(red, green, triggersHelper);
+//
+//        System.out.println(container.isActive());
+//        System.out.println(container.getCurrentState());
+//
+//        try {
+//            container.activate();
+//        } catch (UMLStateMachineException e) {
+//            e.printStackTrace();
+//        }
+//        System.out.println(container.isActive());
+//        System.out.println(container.getCurrentState());
+//
+//        container.receiveEvent(new Event("Warn"));
+//        System.out.println(container.getCurrentState());
+//
+//        container.receiveEvent(new Event("Close"));
+//        System.out.println(container.getCurrentState());
+//
+//        container.receiveEvent(new Event("Open"));
+//        System.out.println(container.getCurrentState());
+//
+//        container.receiveEvent(new Event("Close"));
+//        System.out.println(container.getCurrentState());
     }
 }

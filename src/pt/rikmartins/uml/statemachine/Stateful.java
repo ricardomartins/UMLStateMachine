@@ -1,5 +1,7 @@
 package pt.rikmartins.uml.statemachine;
 
+import java.util.Set;
+
 /**
  * Created by ricardo on 09-08-2014.
  */
@@ -7,9 +9,9 @@ public interface Stateful extends Deactivatable {
     /**
      * Returns the currently active behavioral states or null.
      *
-     * @return a set with the current states or null if not active
+     * @return a set with the current states or empty set if no state
      */
-    public BehavioralStateSet getCurrentState();
+    public Set<BehavioralState> getCurrentState();
 
-    public BehavioralStateSet setCurrentState(BehavioralStateSet behavioralStates) throws UMLStateMachineException;
+    public Set<BehavioralState> setCurrentState(Set<BehavioralState> behavioralStates) throws UMLStateMachineException;
 }

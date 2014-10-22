@@ -1,7 +1,6 @@
 package pt.rikmartins.uml.statemachine.pseudostates;
 
 import pt.rikmartins.uml.statemachine.*;
-import pt.rikmartins.uml.statemachine.BehavioralStateSet;
 
 /**
  * Created by ricardo on 05-08-2014.
@@ -12,7 +11,7 @@ public class Join extends PseudoState implements Vertex.MultipleTransitionTarget
     }
 
     @Override
-    protected boolean canRegisterInTransition(BehavioralTransition transition) {
+    protected boolean canRegisterInTransition(BehavioralTransition transition) throws UMLStateMachineException {
         if (!super.canRegisterInTransition(transition)) return false;
         for(BehavioralTransition bt: getInTransitions())
             // Prevent transitions to behavioral states in repeated regions

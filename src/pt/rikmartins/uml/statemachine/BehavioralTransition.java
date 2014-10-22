@@ -1,5 +1,7 @@
 package pt.rikmartins.uml.statemachine;
 
+import pt.rikmartins.uml.statemachine.tools.Sets;
+
 import java.util.*;
 
 /**
@@ -11,36 +13,43 @@ public class BehavioralTransition {
 
     private final Set<Trigger> triggers;
     private final Constraint guard;
+
     private final Set<Behavior> behaviors;
 
-    private final Set<Behavior> externalBehaviors; // TODO: Improve name
+    private boolean transitioning;
+    private final Map<String, String> transitioningArguments;
 
-    public BehavioralTransition(Vertex fromVertex, Vertex toVertex) {
-        this(fromVertex, toVertex, null);
+    public BehavioralTransition(Vertex fromVertex, Vertex toVertex) throws UMLStateMachineException {
+        this(fromVertex, toVertex, null, null, null);
     }
 
-    public BehavioralTransition(Vertex fromVertex, Vertex toVertex, Collection<Trigger> triggers) {
-        this(fromVertex, toVertex, triggers, null);
+    public BehavioralTransition(Vertex fromVertex, Vertex toVertex, Trigger trigger) throws UMLStateMachineException {
+        this(fromVertex, toVertex, Sets.newHashSet(trigger));
     }
 
-    public BehavioralTransition(Vertex fromVertex, Vertex toVertex, Collection<Trigger> triggers, Constraint guard) {
-        this(fromVertex, toVertex, triggers, guard, null);
+    public BehavioralTransition(Vertex fromVertex, Vertex toVertex, Collection<Trigger> triggers) throws UMLStateMachineException {
+        this(fromVertex, toVertex, triggers, null, null);
     }
 
-    public BehavioralTransition(Vertex fromVertex, Vertex toVertex, Collection<Trigger> triggers, Constraint guard, Collection<Behavior> behaviors) {
+    public BehavioralTransition(Vertex fromVertex, Vertex toVertex, Constraint guard) throws UMLStateMachineException {
+        this(fromVertex, toVertex, null, guard, null);
+    }
+
+    public BehavioralTransition(Vertex fromVertex, Vertex toVertex, Collection<Trigger> triggers, Constraint guard, Collection<Behavior> behaviors) throws UMLStateMachineException {
         this.fromVertex = fromVertex;
         this.toVertex = toVertex;
         this.triggers = new HashSet<Trigger>();
         if (triggers != null)
             this.triggers.addAll(triggers);
         this.guard = guard;
-        this.behaviors = new HashSet<Behavior>();
+        this.behaviors = new LinkedHashSet<Behavior>();
         if (behaviors != null)
             this.behaviors.addAll(behaviors);
         fromVertex.registerOutTransition(this);
         toVertex.registerInTransition(this);
+        this.transitioning = false;
 
-        externalBehaviors = new HashSet<Behavior>();
+        transitioningArguments = new HashMap<String, String>();
     }
 
     public Set<Trigger> getTriggers() {
@@ -55,39 +64,37 @@ public class BehavioralTransition {
         return behaviors;
     }
 
-    public Set<Behavior> getExternalBehaviors() {
-        return externalBehaviors;
+    public final void addBehavior(Behavior behavior) {
+        this.behaviors.add(behavior);
     }
 
-    public Set<Behavior> getAllBehaviors() {
-        Set<Behavior> allBehaviors = new HashSet<Behavior>(behaviors);
-        allBehaviors.addAll(externalBehaviors);
-        return allBehaviors;
+    public final void addBehaviors(Collection<Behavior> behaviors) {
+        this.behaviors.addAll(behaviors);
     }
 
-    public final void addExternalBehavior(Behavior behavior) {
-        this.externalBehaviors.add(behavior);
+    public Vertex initiateTransition() throws UMLStateMachineException {
+        return initiateTransition(null);
     }
 
-    public final void addExternalBehaviors(Collection<Behavior> behaviors) {
-        this.externalBehaviors.addAll(behaviors);
-    }
+    public Vertex initiateTransition(Event event) throws UMLStateMachineException {
+        if (transitioning)
+            throw new UMLStateMachineException("Transitioning already initiated.");
 
-    public Vertex transition() {
-        return transition(null);
-    }
+        transitioningArguments.clear();
+        if (event != null)
+            transitioningArguments.putAll(event.getArguments());
 
-    public Vertex transition(Event event) {
-        Map<String, String> arguments = new HashMap<String, String>();
-        if (event != null) {
-            arguments.putAll(event.getArguments());
-        }
-
-        if (!(testTriggers(event) && testGuard(arguments)))
+        if (!(testTriggers(event) && testGuard(new HashMap<String, String>(transitioningArguments))))
             return null;
 
-        executeAllBehaviors(arguments);
+        transitioning = true;
+
         return toVertex;
+    }
+
+    public void finaliseTransition() {
+        executeBehaviors(transitioningArguments);
+        transitioning = false;
     }
 
     private boolean testTriggers(Event event) {
@@ -102,35 +109,18 @@ public class BehavioralTransition {
     }
 
     private boolean testGuard(Map<String, String> arguments) {
-        if (guard == null)
-            return true;
-        else
-            return guard.testConstraint(arguments);
+        return guard == null || guard.testConstraint(arguments);
     }
 
-    private boolean executeAllBehaviors(Map<String, String> arguments) {
+    private boolean executeBehaviors(Map<String, String> arguments) {
         boolean result = true; // TODO: Clearly define what this function should return
-        for (Behavior behavior : getAllBehaviors())
-            if (!behavior.behavior(arguments))
+        for (Behavior behavior : behaviors)
+            if (!behavior.behave(arguments))
                 result = false;
         return result;
     }
-}
 
-//    def _execute_all_behaviors(self, **kwargs):
-//        for behavior in self.all_behaviors:
-//            behavior.execute_behavior(**kwargs)
-//
-//    def _test_triggers(self, event: Event) -> bool:
-//        if len(self.triggers) < 1:
-//            return True
-//        for trigger in self.triggers:
-//            if trigger.trigger(event):
-//                return True
-//        return False
-//
-//    def _test_guard(self, **kwargs) -> bool:
-//        if self._guard is None:
-//            return True
-//        else:
-//            return self._guard.test_constraint(**kwargs)
+    public boolean getTransitioning(){
+        return transitioning;
+    }
+}

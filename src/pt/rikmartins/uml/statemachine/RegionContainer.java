@@ -1,6 +1,7 @@
 package pt.rikmartins.uml.statemachine;
 
 import java.util.Collection;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 /**
@@ -14,12 +15,5 @@ public interface RegionContainer {
      */
     Set<Region> getRegions();
 
-    /**
-     * Returns the contained {@link pt.rikmartins.uml.statemachine.Region}s.
-     *
-     * @return a set with the contained {@link pt.rikmartins.uml.statemachine.Region}s
-     */
-    void registerRegions(Region region); // TODO: Decide whether this should return some value to indicate success
-
-    void registerRegions(Collection<Region> regions);
+    void registerRegion(Region region) throws UMLStateMachineException;
 }
