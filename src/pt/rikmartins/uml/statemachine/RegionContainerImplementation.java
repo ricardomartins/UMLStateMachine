@@ -35,7 +35,7 @@ public abstract class RegionContainerImplementation implements Stateful, Finalis
 
     @Override
     public BigStructure receiveEvent(Event event){
-        Set<BehavioralState> result = new HashSet<BehavioralState>();
+        BigStructure result = new BigStructure();
         for (Region region: this.regions)
             result.addAll(region.receiveEvent(event));
         return result;
@@ -43,7 +43,7 @@ public abstract class RegionContainerImplementation implements Stateful, Finalis
 
     @Override
     public BigStructure activate() throws UMLStateMachineException {
-        Set<BehavioralState> result = new HashSet<BehavioralState>();
+        BigStructure result = new BigStructure();
         for (Region region: regions) {
             result.addAll(region.activate());
         }

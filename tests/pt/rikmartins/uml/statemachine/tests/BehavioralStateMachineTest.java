@@ -7,6 +7,7 @@ import org.junit.Test;
 import pt.rikmartins.uml.statemachine.*;
 import pt.rikmartins.uml.statemachine.behavioralstates.SimpleBehavioralState;
 import pt.rikmartins.uml.statemachine.pseudostates.Initial;
+import pt.rikmartins.uml.statemachine.tools.BigStructure;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -236,27 +237,27 @@ public class BehavioralStateMachineTest {
         assertFalse(behavioralStateMachine.isFinalised());
         assertFalse(behavioralStateMachine.isActive());
 
-        Set<BehavioralState> res = behavioralStateMachine.activate();
-        assertTrue(res.contains(state1));
-        assertFalse(res.contains(state2));
-        assertTrue(res.contains(state3));
-        assertFalse(res.contains(state4));
+        BigStructure res = behavioralStateMachine.activate();
+        assertTrue(res.getTheSetRENAME().contains(state1));
+        assertFalse(res.getTheSetRENAME().contains(state2));
+        assertTrue(res.getTheSetRENAME().contains(state3));
+        assertFalse(res.getTheSetRENAME().contains(state4));
         assertFalse(behavioralStateMachine.isFinalised());
         assertTrue(behavioralStateMachine.isActive());
 
         res = behavioralStateMachine.receiveEvent(testEvent);
-        assertFalse(res.contains(state1));
-        assertTrue(res.contains(state2));
-        assertFalse(res.contains(state3));
-        assertFalse(res.contains(state4));
+        assertFalse(res.getTheSetRENAME().contains(state1));
+        assertTrue(res.getTheSetRENAME().contains(state2));
+        assertFalse(res.getTheSetRENAME().contains(state3));
+        assertFalse(res.getTheSetRENAME().contains(state4));
         assertFalse(behavioralStateMachine.isFinalised());
         assertTrue(behavioralStateMachine.isActive());
 
         res = behavioralStateMachine.receiveEvent(testEvent);
-        assertFalse(res.contains(state1));
-        assertFalse(res.contains(state2));
-        assertFalse(res.contains(state3));
-        assertFalse(res.contains(state4));
+        assertFalse(res.getTheSetRENAME().contains(state1));
+        assertFalse(res.getTheSetRENAME().contains(state2));
+        assertFalse(res.getTheSetRENAME().contains(state3));
+        assertFalse(res.getTheSetRENAME().contains(state4));
         assertTrue(behavioralStateMachine.isFinalised());
         assertTrue(behavioralStateMachine.isActive());
 

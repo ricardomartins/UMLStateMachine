@@ -23,7 +23,11 @@ public abstract class PseudoState extends Vertex {
         BigStructure result = new BigStructure();
 
         for(BehavioralTransition transition : getOutTransitions()){
-            result.addAll(transition.initiateTransition().activate());
+            Vertex vertex = transition.initiateTransition();
+            if (vertex != null){
+                result.addToTransitionRENAME(transition); // TODO: This may be a bad solution, should be done in
+            }
+            result.addAll(vertex.activate());
         }
         return result;
     }
